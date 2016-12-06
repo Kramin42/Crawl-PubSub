@@ -22,6 +22,9 @@ class EventType(enum.Enum):
 class Event(Base):
     __tablename__ = 'event'
     id = Column(Integer, primary_key=True)
+    # Unique ID to prevent insertion of duplicates into the table.
+    # It's just a hash of the data column
+    uid = Column(Integer, nullable=False, unique=True)
     type = Column(Enum(EventType), nullable=False, index=True)
     data = Column(Text, nullable=False)
     time = Column(DateTime, nullable=False)
@@ -33,6 +36,7 @@ class Event(Base):
 
     def getDict(self):
         return {'id': self.id,
+                'uid': self.uid,
                 'type': self.type.value,
                 'data': json.loads(self.data),
                 'time': timegm(self.time.timetuple()),
