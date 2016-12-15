@@ -12,6 +12,7 @@ parser = reqparse.RequestParser()
 parser.add_argument('offset', type=int)
 parser.add_argument('limit', type=int)
 parser.add_argument('type', type=EventType)
+parser.add_argument('gid', type=str)
 
 default_ok_result = {'status': 200, 'message': 'OK'}
 
@@ -26,6 +27,8 @@ class EventList(Resource):
         with orm.get_session() as sess:
             q = sess.query(Event)
             if args['type']!=None: q = q.filter_by(type=args['type'])
+            if args['gid'] != None:
+                q = q.filter(Event.gid == args['gid']
             q = q.filter(Event.id >= offset)
             q = q.limit(limit)
             result = default_ok_result.copy()

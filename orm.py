@@ -22,6 +22,7 @@ class EventType(enum.Enum):
 class Event(Base):
     __tablename__ = 'event'
     id = Column(Integer, primary_key=True)
+    gid = Column(String(50), nullable=False, index=True)
     type = Column(Enum(EventType), nullable=False, index=True)
     data = Column(Text, nullable=False)
     time = Column(DateTime, nullable=False)

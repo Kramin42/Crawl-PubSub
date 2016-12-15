@@ -25,11 +25,13 @@ def _refresh_from_file(file, src, sess):
                 if not ('type' in data and data['type'] == 'crash'):
                     if 'milestone' in data:
                         event = Event(type=EventType.milestone,
+                                      gid='{}:{}:{}'.format(data['name'],src.name,data['start']),
                                       data=json.dumps(data),
                                       time=utils.crawl_date_to_datetime(data['time']),
                                       src_abbr=src.name)
                     else:
                         event = Event(type=EventType.game,
+                                      gid='{}:{}:{}'.format(data['name'],src.name,data['start']),
                                       data=json.dumps(data),
                                       time=utils.crawl_date_to_datetime(data['end']),
                                       src_abbr=src.name)
